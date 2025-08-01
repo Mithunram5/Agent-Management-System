@@ -1,130 +1,109 @@
-# 🚀 Agent Management System - Complete Setup Guide
+# 🚀 Agent Management System - Setup Guide
 
-## 🎯 Professional MERN Stack Application for Company Submission
+## ⚡ Quick Setup (5 minutes)
 
-This is a production-ready Agent Management System built with modern technologies and best practices. Perfect for demonstrating full-stack development skills.
-
-## ⚡ Super Quick Start (2 minutes)
-
-**For immediate testing without MongoDB setup:**
-
-1. **Clone & Install**:
-   ```bash
-   git clone <repository-url>
-   cd agent-management-system
-
-   # Backend
-   cd backend && npm install
-
-   # Frontend (new terminal)
-   cd frontend && npm install
-   ```
-
-2. **Use Pre-configured Database**:
-   Create `backend/.env`:
-   ```env
-   MONGODB_URI=mongodb+srv://testuser:testpass123@cluster0.mongodb.net/agent_management
-   JWT_SECRET=your_super_secret_jwt_key_here
-   PORT=5000
-   NODE_ENV=development
-   ADMIN_EMAIL=admin@example.com
-   ADMIN_PASSWORD=admin123
-   ```
-
-   > **Note:** The provided MongoDB Atlas connection string is pre-configured with "Allow access from anywhere (0.0.0.0/0)" in the Network Permission List. Please use the included .env and connection string as-is for instant access. If you encounter any connection issues, create your own database in Atlas, update the `.env` file, and run `npm run seed` in the backend directory to initialize sample data.
-
-3. **Start Application**:
-   ```bash
-   # Backend terminal
-   npm run seed && npm run dev
-
-   # Frontend terminal
-   npm run dev
-   ```
-
-4. **Access**: http://localhost:5173
-   - **Admin**: `admin@example.com` / `admin123`
-   - **Agent**: `agent1@example.com` / `agent123`
-
-5. **Test CSV Upload**:
-   - Login as admin
-   - Navigate to "Upload CSV"
-   - Use the included `sample_list.csv` file (25 sample records)
-   - Watch the automatic distribution among agents
-
-## 🔧 Quick Setup (5 minutes)
-
-### Step 1: MongoDB Atlas Setup
-
-1. **Go to**: https://cloud.mongodb.com/
-2. **Sign up/Login** to MongoDB Atlas
-3. **Create Free Cluster**:
-   - Click "Build a Database"
-   - Choose "M0 Sandbox" (Free tier)
-   - Select any region
-   - Click "Create Cluster"
-
-4. **Create Database User**:
-   - Go to "Database Access" → "Add New Database User"
-   - Username: `admin`
-   - Password: `admin123`
-   - Select "Read and write to any database"
-   - Click "Add User"
-
-5. **Whitelist IP**:
-   - Go to "Network Access" → "Add IP Address"
-   - Click "Allow Access from Anywhere" (for development)
-   - Click "Confirm"
-
-6. **Get Connection String**:
-   - Go to "Clusters" → Click "Connect"
-   - Choose "Connect your application"
-   - Copy the connection string
-   - It looks like: `mongodb+srv://admin:<password>@cluster0.xxxxx.mongodb.net/`
-
-### Step 2: Update Backend Configuration
-
-1. **Open**: `backend/.env`
-2. **Replace** the MONGODB_URI with your connection string:
-   ```env
-   MONGODB_URI=mongodb+srv://admin:admin123@cluster0.xxxxx.mongodb.net/agent_management?retryWrites=true&w=majority
-   ```
-   (Replace `xxxxx` with your actual cluster details)
-
-### Step 3: Install Dependencies & Start
-
+### Step 1: Clone Repository
 ```bash
-# Backend
-cd backend
-npm install
-npm run seed    # Creates admin user and sample agents
-npm run dev     # Starts server on port 5000
-
-# Frontend (new terminal)
-cd frontend
-npm install
-npm run dev     # Starts frontend on port 5173
+git clone <repository-url>
+cd agent-management-system
 ```
 
-### Step 4: Access the Application
+### Step 2: Backend Setup
+```bash
+cd backend
+npm install
+```
 
-1. **Open**: http://localhost:5173
-2. **Login with**:
-   - **Admin**: admin@example.com / admin123
-   - **Agent**: agent1@example.com / agent123
+Create `.env` file in backend directory:
+```env
+MONGODB_URI=mongodb://localhost:27017/agent_management
+JWT_SECRET=your_super_secret_jwt_key_here
+JWT_EXPIRES_IN=24h
+PORT=5000
+NODE_ENV=development
+ADMIN_EMAIL=admin@example.com
+ADMIN_PASSWORD=admin123
+```
+
+### Step 3: Frontend Setup
+```bash
+cd frontend
+npm install
+```
+
+### Step 4: Database Setup
+```bash
+cd backend
+npm run seed    # Creates admin user and sample agents
+npm run dev     # Starts backend server
+```
+
+### Step 5: Start Frontend
+```bash
+cd frontend
+npm run dev     # Starts frontend server
+```
+
+### Step 6: Access Application
+- **URL**: http://localhost:5173
+- **Admin**: `admin@example.com` / `admin123`
+- **Agent**: `agent1@example.com` / `agent123`
+
+### Step 7: Test CSV Upload
+- Login as admin
+- Navigate to "Upload CSV"
+- Use the included `sample_list.csv` file (25 sample records)
+- Watch the automatic distribution among agents
+
+## 🗄️ MongoDB Setup Options
+
+### Option 1: Local MongoDB (Recommended)
+
+1. **Install MongoDB Community Edition**
+   - Download from [MongoDB Official Website](https://www.mongodb.com/try/download/community)
+   - Follow installation instructions for your OS
+
+2. **Start MongoDB Service**
+   ```bash
+   # Windows
+   net start MongoDB
+   
+   # macOS
+   brew services start mongodb-community
+   
+   # Linux
+   sudo systemctl start mongod
+   ```
+
+3. **Verify Installation**
+   ```bash
+   mongosh
+   show dbs
+   exit
+   ```
+
+### Option 2: MongoDB Atlas (Cloud)
+
+1. **Create Account**: Go to [MongoDB Atlas](https://www.mongodb.com/atlas)
+2. **Create Cluster**: Choose free tier (M0)
+3. **Create Database User**: Add username/password
+4. **Whitelist IP**: Add your IP address
+5. **Get Connection String**: Copy from Atlas dashboard
+6. **Update .env**: Replace MONGODB_URI with Atlas connection string
 
 ## 🎯 Features Overview
 
-### Admin Features:
+### Admin Features
 - **Dashboard**: View statistics and overview
-- **Agents**: Manage agents (add, edit, delete, view task counts)
+- **Agents**: Manage agents (add, edit, delete with confirmation)
 - **Upload CSV**: Upload and distribute files among any number of agents
 - **Lists**: View all distributions and assigned tasks
 - **Sample Testing**: Use included `sample_list.csv` with 25 records
 
-### Agent Features:
+### Agent Features
 - **My Tasks**: View assigned tasks from CSV uploads
 - **Task Details**: See contact information and notes
+- **Role-based Access**: Cannot access admin features
 
 ## 📊 CSV Distribution Logic
 
@@ -136,8 +115,6 @@ npm run dev     # Starts frontend on port 5173
 - **Sample File**: Use included `sample_list.csv` for testing (25 records)
 
 ## 📄 Testing with Sample CSV File
-
-The project includes a ready-to-use `sample_list.csv` file with 25 sample records:
 
 **File Structure:**
 ```csv
@@ -164,13 +141,13 @@ Bob,4567890123,Requested brochure
 
 ## 🔐 Login Credentials
 
-### Admin Access:
+### Admin Access
 ```
 Email: admin@example.com
 Password: admin123
 ```
 
-### Agent Access:
+### Agent Access
 ```
 Email: agent1@example.com
 Password: agent123
@@ -182,36 +159,38 @@ Other agents:
 - agent5@example.com / agent123
 ```
 
-## 🎨 Modern Login Design Features
-
-- **Gradient background** with modern colors
-- **Clean card design** with rounded corners
-- **Smooth animations** and hover effects
-- **Responsive layout** for all devices
-- **Demo credentials** displayed for easy testing
-
 ## 🛠️ Troubleshooting
 
-### MongoDB Connection Issues:
-1. **Check IP Whitelist**: Ensure your IP is whitelisted in MongoDB Atlas
-2. **Verify Credentials**: Make sure username/password are correct
-3. **Connection String**: Ensure the connection string is properly formatted
+### MongoDB Connection Issues
+1. **Check MongoDB Service**: Ensure MongoDB is running
+2. **Verify Connection String**: Check MONGODB_URI in .env
+3. **Network Access**: For Atlas, verify IP whitelist
 
-### Port Issues:
-- **Backend**: Runs on port 5001
+### Port Issues
+- **Backend**: Runs on port 5000
 - **Frontend**: Runs on port 5173
 - Make sure these ports are available
 
-### Common Fixes:
+### Common Fixes
 ```bash
 # Kill processes on ports
-npx kill-port 5001
+npx kill-port 5000
 npx kill-port 5173
 
 # Restart with fresh install
 rm -rf node_modules
 npm install
 ```
+
+### Environment Variables Missing
+- Copy the `.env` template provided above
+- Ensure all required environment variables are set
+- Verify MongoDB connection before seeding
+
+### Seeding Issues
+- Run `npm run seed` in the backend directory
+- Check MongoDB connection before seeding
+- Verify admin user is created successfully
 
 ## 📁 Project Structure
 
@@ -233,7 +212,9 @@ agent-management-system/
 │   │   ├── App.jsx         # Main app component
 │   │   └── main.jsx        # Entry point
 │   └── package.json        # Dependencies
-└── README.md              # Documentation
+├── sample_list.csv         # Test data
+├── README.md              # Main documentation
+└── SETUP_GUIDE.md         # This file
 ```
 
 ## 🚀 Deployment Ready
@@ -249,8 +230,10 @@ The application is ready for deployment with:
 
 If you encounter any issues:
 1. Check the troubleshooting section above
-2. Ensure MongoDB Atlas is properly configured
+2. Ensure MongoDB is properly configured
 3. Verify all dependencies are installed
 4. Check that both backend and frontend are running
 
 ---
+
+For technical questions, please refer to the main README.md or contact the development team.
