@@ -10,7 +10,10 @@ import listRoutes from './routes/list.js';
 dotenv.config();
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: 'https://agent-management-system-2w9upkiak-mithuns-projects-3f52e150.vercel.app',
+  credentials: true
+}));
 app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/agents', agentRoutes);
