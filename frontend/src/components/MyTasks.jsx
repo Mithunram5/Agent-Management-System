@@ -38,7 +38,7 @@ const MyTasks = () => {
   const fetchMyTasks = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('http://localhost:5000/api/lists/my-tasks');
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/lists/my-tasks`);
       if (response.data.success) {
         setTasks(response.data.data.lists);
         setTotalItems(response.data.data.totalItems);

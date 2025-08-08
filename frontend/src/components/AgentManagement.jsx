@@ -55,7 +55,7 @@ const AgentManagement = () => {
   const fetchAgents = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('http://localhost:5000/api/agents');
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/agents`);
       if (response.data.success) {
         setAgents(response.data.data.agents);
         // Fetch task counts for each agent
@@ -74,7 +74,7 @@ const AgentManagement = () => {
       const taskCounts = {};
       for (const agent of agentList) {
         try {
-          const response = await axios.get(`http://localhost:5000/api/lists/agent/${agent._id}`);
+          const response = await axios.get(`${import.meta.env.VITE_API_URL}/lists/agent/${agent._id}`);
           if (response.data.success) {
             taskCounts[agent._id] = response.data.data.totalItems || 0;
           }
@@ -171,9 +171,9 @@ const AgentManagement = () => {
 
       let response;
       if (editingAgent) {
-        response = await axios.put(`http://localhost:5000/api/agents/${editingAgent._id}`, payload);
+        response = await axios.put(`${import.meta.env.VITE_API_URL}/agents/${editingAgent._id}`, payload);
       } else {
-        response = await axios.post('http://localhost:5000/api/agents', payload);
+        response = await axios.post(`${import.meta.env.VITE_API_URL}/agents`, payload);
       }
 
       if (response.data.success) {
@@ -207,7 +207,7 @@ const AgentManagement = () => {
     if (!agentToDelete) return;
 
     try {
-      const response = await axios.delete(`http://localhost:5000/api/agents/${agentToDelete._id}`);
+      const response = await axios.delete(`${import.meta.env.VITE_API_URL}/agents/${agentToDelete._id}`);
       if (response.data.success) {
         setSuccess('Agent deleted successfully');
         fetchAgents();

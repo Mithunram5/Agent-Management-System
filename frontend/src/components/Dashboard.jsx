@@ -37,11 +37,11 @@ const Dashboard = () => {
       setLoading(true);
       
       // Fetch agents count
-      const agentsResponse = await axios.get('http://localhost:5000/api/agents');
+      const agentsResponse = await axios.get(`${import.meta.env.VITE_API_URL}/agents`);
       const totalAgents = agentsResponse.data.data?.pagination?.totalAgents || 0;
 
       // Fetch distributed lists
-      const listsResponse = await axios.get('http://localhost:5000/api/lists');
+      const listsResponse = await axios.get(`${import.meta.env.VITE_API_URL}/lists`);
       const lists = listsResponse.data.data?.lists || [];
       const totalDistributions = lists.length;
       const totalItems = lists.reduce((sum, list) => sum + (list.totalItems || 0), 0);
