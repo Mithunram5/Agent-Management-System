@@ -235,5 +235,3 @@ If you encounter any issues:
 4. Check that both backend and frontend are running
 
 ---
-
-For technical questions, please refer to the main README.md or contact the development team.
